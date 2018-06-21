@@ -20,9 +20,15 @@ export default class Delete extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
     if(this.state.isbn !== "") {
-        fetch(`http://localhost:8081/books/${this.state.isbn}`, {
+        fetch(`http://34.217.194.59/api/books/${this.state.isbn}`, {
             method: 'DELETE',
             //mode: 'no-cors',
+        })
+        .then(response => {
+          if (!response.ok) {
+              throw Error(response.statusText);
+          }
+          return response;
         })
         .then(response => console.log("Book Deleted Successfully !.."))
         .catch(err => console.log('[error]', err))
@@ -33,7 +39,7 @@ export default class Delete extends React.Component {
     return (
       <div>
 
-        <div style={{ position: 'relative', left: '32%' }} className="col-md-4">
+        <div style={{ postion: 'relative', left: '50%', transform: 'translate(-50%, 20%)' }} className="col-md-4">
           <form id="form1" onSubmit={this.handleSubmit}>
             <div className="form-group">
               <label htmlFor="isbn">ISBN Number</label><br/>

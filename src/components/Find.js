@@ -1,5 +1,5 @@
 import React from 'react';
-import './Find.css';
+//import './Find.css';
 
 export default class Find extends React.Component {
   
@@ -22,18 +22,26 @@ export default class Find extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
     if (this.state.isbn.length === 5) {
-      fetch(`http://localhost:8081/books/${this.state.isbn}`)
+      fetch(`http://34.217.194.59/api/books/${this.state.isbn}`)
+        .then(response => {
+          if (!response.ok) {
+              throw Error(response.statusText);
+          }
+          return response;
+        })
         .then(results => results.json())
         .then(json => {
             this.setState({books: json});
             if (json !== null) {
-              console.log('Book Found !')
+              console.log('Book Found !');
             } else {
-              console.log('Books Not Found')
+              console.log('Book Not Found');
+              alert('Sorry, the required book Not Found in our Database.');
             }
         })
         .catch(err => { 
-            console.log('request failed', err); 
+            console.log('request failed', err);
+            alert('Request Failed');
         });                 
     }
     else {
@@ -43,9 +51,9 @@ export default class Find extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{ flex: 2, flexDirection: 'column' }}>
 
-        <div style={{ position: 'relative', left: '32%' }} className="col-md-4">
+        <div style={{ flex: 1, postion: 'relative', left: '50%', transform: 'translate(-50%, -3%)' }} className="col-md-4">
           <form id="form1" onSubmit={this.handleSubmit}>
             <div className="form-group">
               <label htmlFor="isbn">ISBN</label><br/>
@@ -56,26 +64,24 @@ export default class Find extends React.Component {
             </div>
           </form>
         </div>
-
-        <div id="tbl">
-        <table className="table table-bordered table-hover">
-          <thead><tr><th>ISBN NUMBER</th><th>TITLE OF THE BOOK</th><th>AUTHORS</th><th>COST</th></tr></thead>
-          <tbody>{this.state.books !== null ? (this.state.books.map(function(item, key) {
-                  return (
-                      <tr key = {key}>
-                          <td>{item.isbn}</td>
-                          <td>{item.title}</td>
-                          <td>{item.authors}</td>
-                          <td>{item.price}</td>
-                      </tr>
-                      )
-                  })) : (
-                    <tr><td colSpan="4">...No Such Books...</td></tr>
-                  ) }
-          </tbody>
-        </table>
+        <div style={{padding: 10, paddingTop: 20}}>
+          <table className="table table-bordered table-hover">
+            <thead><tr><th>ISBN NUMBER</th><th>TITLE OF THE BOOK</th><th>AUTHORS</th><th>COST</th></tr></thead>
+            <tbody>{this.state.books !== null ? (this.state.books.map(function(item, key) {
+                    return (
+                        <tr key = {key}>
+                            <td>{item.isbn}</td>
+                            <td>{item.title}</td>
+                            <td>{item.authors}</td>
+                            <td>{item.price}</td>
+                        </tr>
+                        )
+                    })) : (
+                      <tr><td colSpan="4">...No Such Books...</td></tr>
+                    ) }
+            </tbody>
+          </table>
         </div>
-
       </div>
     );
   }

@@ -11,6 +11,7 @@ export default class Add extends React.Component {
         }
         this.handleChange=this.handleChange.bind(this);
         this.handleSubmit=this.handleSubmit.bind(this);
+        this.isSuccess=null;
     }
 
     handleChange(e) {
@@ -22,7 +23,7 @@ export default class Add extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         const data = JSON.stringify(this.state, null, "");
-        fetch('http://localhost:8081/books', {
+        fetch('http://34.217.194.59/api/books', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -31,20 +32,27 @@ export default class Add extends React.Component {
             mode: 'no-cors',
             body: data,
         })
-        .then(response => console.log("Book added Successfully !..."))
-        .catch(err => console.log('[error while adding book]', err));
+        .then(response => {
+            if (!response.ok) {
+                throw Error(response.statusText);
+            }
+            return response;
+        })
+        .then(response => {
+            console.log("Book added Successfully !...");
+            alert("Book added Successfully !...");
+        })
+        .catch(err => {
+            console.log('[error while adding book]', err);
+            alert("Failed !");
+        });
     }
 
     render(){
         return(
             <div>
                 <form id="form1" onSubmit={this.handleSubmit}>
-                    <div 
-                        style={{
-                         position: 'relative',
-                         left: '32%',
-                        }} 
-                        className="col-md-4">
+                    <div style={{ postion: 'relative', left: '50%', transform: 'translate(-50%, 20%)' }} className="col-md-4">
                     <div className="form-group">
                         <label htmlFor="isbn">ISBN Number</label>
                         <input className="form-control" type="text" id="isbn" placeholder="ISBN Number" onChange={this.handleChange}/>
