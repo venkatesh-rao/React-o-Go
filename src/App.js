@@ -22,7 +22,7 @@ export default class App extends React.Component {
                     <li><Link to="/find">Find</Link></li>
                     <li><Link to="/add">Add</Link></li>
                     <li><Link to="/delete">Delete</Link></li>
-                    <li className="disabled"><Link to="/update">Update</Link></li>
+                    <li className="disabled"><Link to="/">Update</Link></li>
                   </ul>
                 </div>
               </nav>
