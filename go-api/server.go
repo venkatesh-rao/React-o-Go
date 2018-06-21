@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"fmt"
 
 	"github.com/gorilla/mux"
 	"gopkg.in/mgo.v2"
@@ -18,6 +19,10 @@ type (
 		Price  string   `json:"price"`
 	}
 )
+
+func home(w http.ResponseWriter, r*http.Request) {
+	fmt.Fprintf(w, "Welcome")
+}
 
 func allBooks(s *mgo.Session) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -141,12 +146,14 @@ func main() {
 	defer session.Close()
 
 	r := mux.NewRouter()
-
+	
+	r.HandleFunc("/", home).Methods("GET")
 	r.HandleFunc("/books", allBooks(session)).Methods("GET")
 	r.HandleFunc("/books/{isbn}", findBook(session)).Methods("GET")
 	r.HandleFunc("/books/{isbn}", deleteBook(session)).Methods("DELETE", "OPTIONS")
 	r.HandleFunc("/books", createBook(session)).Methods("POST")
 	r.HandleFunc("/books/{isbn}", updateBook(session)).Methods("PUT")
+	log.Println("[ Server is Running on port :8081 ]")
 	log.Fatal(http.ListenAndServe(":8081", r))
 }
 
