@@ -63,7 +63,7 @@ export default class Add extends React.Component {
                     </div>
                     <div className="form-group">
                         <label htmlFor="authors">AUTHORS</label>
-                        <input className="form-control" type="text" id="authors" placeholder="Authors Name" onChange={this.handleChange}/>
+                        <input className="form-control" type="text" id="author" placeholder="Author Name" onChange={this.handleChange}/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="price">PRICE</label>

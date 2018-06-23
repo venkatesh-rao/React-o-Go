@@ -5,6 +5,7 @@ import Add from './components/Add';
 import Home from './components/Home';
 import Find from './components/Find';
 import Delete from './components/Delete';
+import Update from './components/Update';
 
 export default class App extends React.Component {
     render() {
@@ -22,7 +23,7 @@ export default class App extends React.Component {
                     <li><Link to="/find">Find</Link></li>
                     <li><Link to="/add">Add</Link></li>
                     <li><Link to="/delete">Delete</Link></li>
-                    <li className="disabled"><Link to="/">Update</Link></li>
+                    <li><Link to="/update">Update</Link></li>
                   </ul>
                 </div>
               </nav>
@@ -36,6 +37,7 @@ export default class App extends React.Component {
                   <Route exact path='/find' component={Find} />
                   <Route path='/add' component={Add} />
                   <Route path='/delete' component={Delete} />
+                  <Route path='/update' component={Update} />
                 {/* </div>   */}
               </Switch>
 
